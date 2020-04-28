@@ -50,40 +50,37 @@ public class Player_AI : Agent
     public override void OnActionReceived(float[] vectorAction)
     {
         // always move forward
-        gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * 8000);
+        gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * 30000);
         // only one action output: the angle to rotate
         transform.Rotate(new Vector3(0, vectorAction[0] - 5, 0));
 
         // avoid fall off ground
-        if (transform.localPosition.y < 0)
+        if (transform.localPosition.y < -0.5f)
         {
-            EndEpisode();
+            transform.localPosition = agent_pos;
         }
 
-        // reward and punishment
+        if (football.transform.localPosition.y < -0.5f)
+        {
+            football.transform.localPosition = football_pos;
+            football.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            football.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        }
+
+
         if (-8f < football.transform.localPosition.z && 8f > football.transform.localPosition.z)
         {
-            //if (friend_gate.localPosition.x < football.transform.localPosition.x)
-            //{
-            //    SetReward(-1);
-            //    EndEpisode();
-            //} else if (foe_gate.localPosition.x > football.transform.localPosition.x)
-            //{
-            //    SetReward(1);
-            //    EndEpisode();
-            //}
+            if (Mathf.Abs(friend_gate.localPosition.x - football.transform.localPosition.x) < 2)
+            {
+                SetReward(-1);
+                EndEpisode();
+            }
+            else if (Mathf.Abs(foe_gate.localPosition.x - football.transform.localPosition.x) < 2)
+            {
+                SetReward(1);
+                EndEpisode();
+            }
         }
-        Debug.Log(football.transform.localPosition.z);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Wall")
-        {
-            SetReward(-0.5f);
-            //EndEpisode();
-        }
-        return;
     }
 
     // manual control
