@@ -34,7 +34,6 @@ public class Player_AI : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         // Target and Agent positions
-        sensor.AddObservation(football.transform.localPosition);
         sensor.AddObservation(foe.localPosition);
         sensor.AddObservation(transform.localPosition);
 
@@ -42,7 +41,8 @@ public class Player_AI : Agent
         sensor.AddObservation(friend_gate.localPosition);
         sensor.AddObservation(foe_gate.localPosition);
 
-        // football velocity
+        // football position and velocity
+        sensor.AddObservation(football.transform.localPosition);
         sensor.AddObservation(football.GetComponent<Rigidbody>().velocity.x);
         sensor.AddObservation(football.GetComponent<Rigidbody>().velocity.z);
     }
@@ -50,9 +50,8 @@ public class Player_AI : Agent
     public override void OnActionReceived(float[] vectorAction)
     {
         // always move forward
-        gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * 30000);
-        // only one action output: the angle to rotate
-        transform.Rotate(new Vector3(0, vectorAction[0] - 5, 0));
+        // action output: speed
+        gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(vectorAction[0] - 5, 0, vectorAction[1] - 5) * 10000);
 
         // avoid fall off ground
         if (transform.localPosition.y < -0.5f)
@@ -81,19 +80,30 @@ public class Player_AI : Agent
                 EndEpisode();
             }
         }
+        // constant punishment
+        SetReward(-1 / 1000f);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Football")
+        {
+            SetReward(0.1f);
+        }
     }
 
     // manual control
     public override float[] Heuristic()
     {
-        var action = new float[1];
+        var action = new float[2];
         if (Input.GetKey(KeyCode.A))
         {
-            action[0] = 0f;
+            action[0] = -5f;
         } else if (Input.GetKey(KeyCode.D))
         {
-            action[0] = 10f;
+            action[0] = 5f;
         }
+        action[1] = 10;
         return action;
     }
 
