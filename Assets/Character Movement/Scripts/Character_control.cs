@@ -29,9 +29,14 @@ public class Character_control : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+    }
+
+    private void FixedUpdate()
+    {
         is_walking = false;
         is_running = false;
-        
+
         if (Input.GetKey(KeyCode.W))
         {
             is_walking = true;
@@ -48,24 +53,23 @@ public class Character_control : MonoBehaviour
         {
             transform.Rotate(new Vector3(0, turn_speed, 0));
         }
-        if (Input.GetKey(KeyCode.LeftShift))
+
+        if (is_walking)
         {
-            if (is_walking)
+            if (Input.GetKey(KeyCode.LeftShift))
             {
                 is_running = true;
             }
-        } else
+        }
+        else
         {
             is_running = false;
         }
 
-    }
-
-    private void FixedUpdate()
-    {
 
         if (is_walking)
         {
+            animator.SetBool("is_walking", true);
             if (is_running)
             {
                 animator.SetBool("is_running", true);
@@ -77,7 +81,6 @@ public class Character_control : MonoBehaviour
             else
             {
                 animator.SetBool("is_running", false);
-                animator.SetBool("is_walking", true);
                 if (is_grounded)
                 {
                     transform.position = transform.position + transform.forward * walk_speed;

@@ -21,7 +21,8 @@ public class CameraFollow : MonoBehaviour
         Vector3 targetPos = target.transform.position - Vector3.up * delta_pos.y * 1f - target.transform.forward * delta_pos.z;
         transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * follow_delta_time);
         //相机的角度
-        transform.rotation = Quaternion.Lerp(transform.rotation, target.transform.rotation * delta_rot, Time.deltaTime * follow_delta_time);
+        Quaternion targetRot = Quaternion.LookRotation(target.transform.position - transform.position);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime * follow_delta_time * 10);
         //transform.LookAt(target.transform.position + target.transform.forward * follow_delta_time + target.transform.up * 2f);
 
         GetComponent<Camera>().fieldOfView = 60 + target.GetComponent<Rigidbody>().velocity.magnitude / 10f;
