@@ -70,11 +70,11 @@ public class RollAgent : Agent
     }
 
     // manual control
-    public override float[] Heuristic()
-    {
-        var action = new float[2];
-        action[0] = Input.GetAxis("Horizontal");
-        action[1] = Input.GetAxis("Vertical");
-        return action;
-    }
+    //public override float[] Heuristic()
+    //{
+    //    var action = new float[2];
+    //    action[0] = Input.GetAxis("Horizontal");
+    //    action[1] = Input.GetAxis("Vertical");
+    //    return action;
+    //}
 }

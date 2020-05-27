@@ -93,18 +93,18 @@ public class Player_AI : Agent
     }
 
     // manual control
-    public override float[] Heuristic()
-    {
-        var action = new float[2];
-        if (Input.GetKey(KeyCode.A))
-        {
-            action[0] = -5f;
-        } else if (Input.GetKey(KeyCode.D))
-        {
-            action[0] = 5f;
-        }
-        action[1] = 10;
-        return action;
-    }
+    //public override float[] Heuristic()
+    //{
+    //    var action = new float[2];
+    //    if (Input.GetKey(KeyCode.A))
+    //    {
+    //        action[0] = -5f;
+    //    } else if (Input.GetKey(KeyCode.D))
+    //    {
+    //        action[0] = 5f;
+    //    }
+    //    action[1] = 10;
+    //    return action;
+    //}
 
 }
