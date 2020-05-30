@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Fighter_controller : MonoBehaviour
+public class Zero_fighter_control : MonoBehaviour
 {
-    public Animator front_glass_action;
+    private Animator animator;
+    public float init_velocity;
     public float engine_power;
     public float air_density;
 
@@ -16,11 +17,16 @@ public class Fighter_controller : MonoBehaviour
     public TextMeshProUGUI power_display;
     public TextMeshProUGUI angle_display;
     public TextMeshProUGUI Height_display;
+
+    public bool landing_gear_toggle;
+    private float landing_gear_anim_cooldown = 0;
+    public bool cockpit_glass_toggle;
     // Start is called before the first frame update
     void Start()
     {
         rig = gameObject.GetComponent<Rigidbody>();
-        rig.velocity = transform.forward * 100;
+        rig.velocity = transform.forward * init_velocity;
+        animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -28,7 +34,8 @@ public class Fighter_controller : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            front_glass_action.SetTrigger("Start");
+            cockpit_glass_toggle = !cockpit_glass_toggle;
+            animator.SetBool("cockpit_glass_toggle", cockpit_glass_toggle);
         }
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -41,12 +48,14 @@ public class Fighter_controller : MonoBehaviour
             {
                 engine_power = 100000;
             }
-        } else if (Input.GetKey(KeyCode.LeftControl))
+        }
+        else if (Input.GetKey(KeyCode.LeftControl))
         {
             if (engine_power > 0)
             {
                 engine_power -= 100;
-            } else
+            }
+            else
             {
                 engine_power = 0;
             }
@@ -55,7 +64,8 @@ public class Fighter_controller : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             rig.AddForceAtPosition(-transform.up * 2, transform.position + transform.forward);
-        } else if (Input.GetKey(KeyCode.S))
+        }
+        else if (Input.GetKey(KeyCode.S))
         {
             rig.AddForceAtPosition(transform.up * 2, transform.position + transform.forward);
         }
@@ -67,6 +77,30 @@ public class Fighter_controller : MonoBehaviour
         else if (Input.GetKey(KeyCode.A))
         {
             rig.AddForceAtPosition(transform.up * 4, transform.position + transform.right);
+        }
+        
+        if (Input.GetKey(KeyCode.R))
+        {
+            rig.AddForce(transform.up * 9000);
+        }
+
+        if (Input.GetKey(KeyCode.L))
+        {
+            if (landing_gear_anim_cooldown <= 0)
+            {
+                landing_gear_toggle = !landing_gear_toggle;
+                animator.SetBool("landing_gear_toggle", landing_gear_toggle);
+                landing_gear_anim_cooldown = 3.5f;
+            }
+        }
+        Debug.Log(landing_gear_anim_cooldown);
+        if (landing_gear_anim_cooldown > 0)
+        {
+            landing_gear_anim_cooldown -= Time.deltaTime;
+        }
+        else
+        {
+            landing_gear_anim_cooldown = 0;
         }
 
         // calculate physics

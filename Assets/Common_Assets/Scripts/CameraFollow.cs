@@ -11,14 +11,15 @@ public class CameraFollow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        delta_pos = target.transform.position - transform.position;
+        //delta_pos = target.transform.position - transform.position;
+        delta_pos = target.transform.position + target.transform.forward * 50 - target.transform.up * 20;
         delta_rot = target.transform.rotation * transform.rotation;
     }
 
     private void FixedUpdate()
     {
         //相机的位置
-        Vector3 targetPos = target.transform.position - Vector3.up * delta_pos.y * 1f - target.transform.forward * delta_pos.z;
+        Vector3 targetPos = target.transform.position - Vector3.up * delta_pos.y + target.transform.forward * delta_pos.x;
         transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * follow_delta_time);
         //相机的角度
         Quaternion targetRot = Quaternion.LookRotation(target.transform.position - transform.position);
