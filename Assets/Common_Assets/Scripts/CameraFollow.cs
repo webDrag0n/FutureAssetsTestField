@@ -6,21 +6,25 @@ public class CameraFollow : MonoBehaviour
 {
     [SerializeField] GameObject target;
     public float follow_delta_time;
+    public bool follow_pos;
     private Vector3 delta_pos;
     private Quaternion delta_rot;
     // Start is called before the first frame update
     void Start()
     {
         //delta_pos = target.transform.position - transform.position;
-        delta_pos = target.transform.position + target.transform.forward * 50 - target.transform.up * 20;
+        delta_pos = target.transform.position + target.transform.forward * 30 - target.transform.up * 10;
         delta_rot = target.transform.rotation * transform.rotation;
     }
 
     private void FixedUpdate()
     {
-        //相机的位置
-        Vector3 targetPos = target.transform.position - Vector3.up * delta_pos.y + target.transform.forward * delta_pos.x;
-        transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * follow_delta_time);
+        if (follow_pos)
+        {
+            //相机的位置
+            Vector3 targetPos = target.transform.position - Vector3.up * delta_pos.y + target.transform.forward * delta_pos.x;
+            transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * follow_delta_time);
+        }
         //相机的角度
         Quaternion targetRot = Quaternion.LookRotation(target.transform.position - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime * follow_delta_time * 10);

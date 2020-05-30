@@ -6,6 +6,9 @@ using TMPro;
 public class Zero_fighter_control : MonoBehaviour
 {
     private Animator animator;
+    public GameObject main_engine_flare;
+    public GameObject lift_engine_flare;
+
     public float init_velocity;
     public float engine_power;
     public float air_density;
@@ -27,10 +30,11 @@ public class Zero_fighter_control : MonoBehaviour
         rig = gameObject.GetComponent<Rigidbody>();
         rig.velocity = transform.forward * init_velocity;
         animator = GetComponentInChildren<Animator>();
+        main_engine_flare.transform.localScale = new Vector3(1, 1, engine_power / 100000 + 0.3f);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -42,46 +46,50 @@ public class Zero_fighter_control : MonoBehaviour
         {
             if (engine_power < 100000)
             {
-                engine_power += 100;
+                engine_power += 300000;
             }
             else
             {
                 engine_power = 100000;
             }
+            main_engine_flare.transform.localScale = new Vector3(1, 1, engine_power / 10000 + 0.3f);
         }
         else if (Input.GetKey(KeyCode.LeftControl))
         {
             if (engine_power > 0)
             {
-                engine_power -= 100;
+                engine_power -= 300;
             }
             else
             {
                 engine_power = 0;
             }
+            main_engine_flare.transform.localScale = new Vector3(1, 1, engine_power / 10000 + 0.3f);
         }
 
         if (Input.GetKey(KeyCode.W))
         {
-            rig.AddForceAtPosition(-transform.up * 2, transform.position + transform.forward);
+            rig.AddForceAtPosition(-transform.up * 30000, transform.position + transform.forward);
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            rig.AddForceAtPosition(transform.up * 2, transform.position + transform.forward);
+            rig.AddForceAtPosition(transform.up * 30000, transform.position + transform.forward);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            rig.AddForceAtPosition(-transform.up * 4, transform.position + transform.right);
+            rig.AddForceAtPosition(-transform.up * 30000, transform.position + transform.right);
+            rig.AddForceAtPosition(transform.up * 30000, transform.position - transform.right);
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            rig.AddForceAtPosition(transform.up * 4, transform.position + transform.right);
+            rig.AddForceAtPosition(transform.up * 30000, transform.position + transform.right);
+            rig.AddForceAtPosition(-transform.up * 30000, transform.position - transform.right);
         }
         
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetKey(KeyCode.Space))
         {
-            rig.AddForce(transform.up * 9000);
+            rig.AddForce(transform.up * 15000);
         }
 
         if (Input.GetKey(KeyCode.L))
@@ -93,7 +101,6 @@ public class Zero_fighter_control : MonoBehaviour
                 landing_gear_anim_cooldown = 3.5f;
             }
         }
-        Debug.Log(landing_gear_anim_cooldown);
         if (landing_gear_anim_cooldown > 0)
         {
             landing_gear_anim_cooldown -= Time.deltaTime;
@@ -126,12 +133,13 @@ public class Zero_fighter_control : MonoBehaviour
 
         // floating force
         float forwad_speed = rig.velocity.magnitude * Mathf.Cos(counter_angle_rad);
-        rig.AddForceAtPosition(transform.up * Mathf.Pow(forwad_speed, 2) / 1.5f * air_density - resistive_force, transform.position - transform.forward * 0f);
-
+        //rig.AddForceAtPosition(transform.up * Mathf.Pow(forwad_speed, 2) / 1.5f * air_density - resistive_force, transform.position - transform.forward * 0f);
+        
         // GUI update
-        velocity_display.SetText("Velocity: " + rig.velocity.magnitude * 2);
-        power_display.SetText("Power: " + engine_power);
-        angle_display.SetText("Angle: " + counter_angle_deg);
-        Height_display.SetText("Height: " + transform.position.y);
+        //velocity_display.SetText("Velocity: " + rig.velocity.magnitude * 2);
+        //power_display.SetText("Power: " + engine_power);
+        //angle_display.SetText("Angle: " + counter_angle_deg);
+        //Height_display.SetText("Height: " + transform.position.y);
+        
     }
 }
