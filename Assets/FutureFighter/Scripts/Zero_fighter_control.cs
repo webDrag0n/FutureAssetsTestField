@@ -8,6 +8,8 @@ public class Zero_fighter_control : MonoBehaviour
     private Animator animator;
     public GameObject main_engine_flare;
     public GameObject lift_engine_flare;
+    public Camera[] cam_array;
+    public int current_cam_index;
 
     public float init_velocity;
     public float engine_power;
@@ -33,8 +35,7 @@ public class Zero_fighter_control : MonoBehaviour
         main_engine_flare.transform.localScale = new Vector3(1, 1, engine_power / 100000 + 0.3f);
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -42,19 +43,50 @@ public class Zero_fighter_control : MonoBehaviour
             animator.SetBool("cockpit_glass_toggle", cockpit_glass_toggle);
         }
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            cam_array[current_cam_index].gameObject.SetActive(false);
+            current_cam_index += 1;
+            if (current_cam_index >= cam_array.Length)
+            {
+                current_cam_index = 0;
+            }
+            cam_array[current_cam_index].gameObject.SetActive(true);
+        }
+        if (Input.GetKey(KeyCode.L))
+        {
+            if (landing_gear_anim_cooldown <= 0)
+            {
+                landing_gear_toggle = !landing_gear_toggle;
+                animator.SetBool("landing_gear_toggle", landing_gear_toggle);
+                landing_gear_anim_cooldown = 3.5f;
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            engine_power = 100000;
+        }
+
+        if (Input.mouseScrollDelta.y > 0)
         {
             if (engine_power < 100000)
             {
-                engine_power += 300000;
+                engine_power += 300;
             }
             else
             {
                 engine_power = 100000;
             }
-            main_engine_flare.transform.localScale = new Vector3(1, 1, engine_power / 10000 + 0.3f);
+            main_engine_flare.transform.localScale = new Vector3(1, 1, engine_power / 100000 + 0.3f);
         }
-        else if (Input.GetKey(KeyCode.LeftControl))
+        else if (Input.mouseScrollDelta.y < 0)
         {
             if (engine_power > 0)
             {
@@ -64,7 +96,7 @@ public class Zero_fighter_control : MonoBehaviour
             {
                 engine_power = 0;
             }
-            main_engine_flare.transform.localScale = new Vector3(1, 1, engine_power / 10000 + 0.3f);
+            main_engine_flare.transform.localScale = new Vector3(1, 1, engine_power / 100000 + 0.3f);
         }
 
         if (Input.GetKey(KeyCode.W))
@@ -76,31 +108,31 @@ public class Zero_fighter_control : MonoBehaviour
             rig.AddForceAtPosition(transform.up * 30000, transform.position + transform.forward);
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.E))
         {
             rig.AddForceAtPosition(-transform.up * 30000, transform.position + transform.right);
             rig.AddForceAtPosition(transform.up * 30000, transform.position - transform.right);
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.Q))
         {
             rig.AddForceAtPosition(transform.up * 30000, transform.position + transform.right);
             rig.AddForceAtPosition(-transform.up * 30000, transform.position - transform.right);
         }
-        
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            rig.AddForce(transform.right * 5000);
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            rig.AddForce(-transform.right * 5000);
+        }
+
         if (Input.GetKey(KeyCode.Space))
         {
             rig.AddForce(transform.up * 15000);
         }
 
-        if (Input.GetKey(KeyCode.L))
-        {
-            if (landing_gear_anim_cooldown <= 0)
-            {
-                landing_gear_toggle = !landing_gear_toggle;
-                animator.SetBool("landing_gear_toggle", landing_gear_toggle);
-                landing_gear_anim_cooldown = 3.5f;
-            }
-        }
         if (landing_gear_anim_cooldown > 0)
         {
             landing_gear_anim_cooldown -= Time.deltaTime;
