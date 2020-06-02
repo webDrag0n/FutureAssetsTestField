@@ -15,13 +15,15 @@ public class Zero_fighter_control : MonoBehaviour
     public float engine_power;
     public float air_density;
 
+    private bool jumping;
+
     public float front_glass_action_time = 1f;
 
     private Rigidbody rig;
-    public TextMeshProUGUI velocity_display;
-    public TextMeshProUGUI power_display;
-    public TextMeshProUGUI angle_display;
-    public TextMeshProUGUI Height_display;
+    public TextMeshPro velocity_display;
+    public TextMeshPro power_display;
+    public TextMeshPro angle_display;
+    public TextMeshPro Height_display;
 
     public bool landing_gear_toggle;
     private float landing_gear_anim_cooldown = 0;
@@ -33,6 +35,7 @@ public class Zero_fighter_control : MonoBehaviour
         rig.velocity = transform.forward * init_velocity;
         animator = GetComponentInChildren<Animator>();
         main_engine_flare.transform.localScale = new Vector3(1, 1, engine_power / 100000 + 0.3f);
+        jumping = false;
     }
 
     private void Update()
@@ -62,41 +65,62 @@ public class Zero_fighter_control : MonoBehaviour
                 landing_gear_anim_cooldown = 3.5f;
             }
         }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            // all strenth
+            engine_power = 300000;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            engine_power = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            // jump
+            engine_power = 10000000;
+
+            //jumping = !jumping;
+            //if (!jumping)
+            //{
+            //    engine_power = 0;
+            //    rig.velocity = Vector3.zero;
+            //} else
+            //{
+            //    engine_power = 10000000;
+            //}
+        }else if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            engine_power = 0;
+            rig.velocity = Vector3.zero;
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            engine_power = 100000;
-        }
-
+        main_engine_flare.transform.localScale = new Vector3((engine_power / 300000 + 0.7f + Random.RandomRange(-0.1f, 0.1f)) * 100, 100, 100);
         if (Input.mouseScrollDelta.y > 0)
         {
-            if (engine_power < 100000)
+            if (engine_power < 300000)
             {
-                engine_power += 300;
+                engine_power += 600;
             }
             else
             {
-                engine_power = 100000;
+                engine_power = 300000;
             }
-            main_engine_flare.transform.localScale = new Vector3(1, 1, engine_power / 100000 + 0.3f);
+            
         }
         else if (Input.mouseScrollDelta.y < 0)
         {
             if (engine_power > 0)
             {
-                engine_power -= 300;
+                engine_power -= 600;
             }
             else
             {
                 engine_power = 0;
             }
-            main_engine_flare.transform.localScale = new Vector3(1, 1, engine_power / 100000 + 0.3f);
         }
 
         if (Input.GetKey(KeyCode.W))
@@ -131,6 +155,13 @@ public class Zero_fighter_control : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             rig.AddForce(transform.up * 15000);
+        } else
+        {
+            float up_velocity = rig.velocity.magnitude * Vector3.Dot(rig.velocity.normalized, transform.up);
+            if (up_velocity < 0.5f)
+            {
+                rig.AddForce(-up_velocity * transform.up * 15000);
+            }
         }
 
         if (landing_gear_anim_cooldown > 0)
@@ -168,8 +199,8 @@ public class Zero_fighter_control : MonoBehaviour
         //rig.AddForceAtPosition(transform.up * Mathf.Pow(forwad_speed, 2) / 1.5f * air_density - resistive_force, transform.position - transform.forward * 0f);
         
         // GUI update
-        //velocity_display.SetText("Velocity: " + rig.velocity.magnitude * 2);
-        //power_display.SetText("Power: " + engine_power);
+        velocity_display.SetText("" + Mathf.RoundToInt(rig.velocity.magnitude * 1000) / 1000);
+        power_display.SetText("" + Mathf.RoundToInt(engine_power * 1000) / 300000);
         //angle_display.SetText("Angle: " + counter_angle_deg);
         //Height_display.SetText("Height: " + transform.position.y);
         

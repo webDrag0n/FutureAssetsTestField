@@ -18,7 +18,7 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         //delta_pos = target.transform.position - transform.position;
-        delta_pos = target.transform.position + target.transform.forward * follow_delta_pos.z - target.transform.up * follow_delta_pos.y;
+        delta_pos = target.transform.forward * follow_delta_pos.z - target.transform.up * follow_delta_pos.y;
         mouse_control_delta_pos = delta_pos;
         delta_rot = target.transform.rotation * transform.rotation;
         if (enable_mouse_control)
@@ -67,7 +67,12 @@ public class CameraFollow : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime * follow_delta_time * 10);
         //transform.LookAt(target.transform.position + target.transform.forward * follow_delta_time + target.transform.up * 2f);
 
-        GetComponent<Camera>().fieldOfView = 60 + target.GetComponent<Rigidbody>().velocity.magnitude / 10f;
+        float fov = 60 + target.GetComponent<Rigidbody>().velocity.magnitude / 10f;
+        if (fov > 100)
+        {
+            fov = 100;
+        }
+        GetComponent<Camera>().fieldOfView = fov;
     }
     // Update is called once per frame
     void Update()
