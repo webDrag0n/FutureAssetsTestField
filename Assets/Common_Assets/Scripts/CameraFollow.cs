@@ -64,7 +64,7 @@ public class CameraFollow : MonoBehaviour
         }
         //相机的角度
         Quaternion targetRot = Quaternion.LookRotation(target.transform.position - transform.position);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime * follow_delta_time * 10);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime * follow_delta_time);
         //transform.LookAt(target.transform.position + target.transform.forward * follow_delta_time + target.transform.up * 2f);
 
         float fov = 60 + target.GetComponent<Rigidbody>().velocity.magnitude / 10f;
@@ -72,7 +72,7 @@ public class CameraFollow : MonoBehaviour
         {
             fov = 100;
         }
-        GetComponent<Camera>().fieldOfView = fov;
+        GetComponent<Camera>().fieldOfView = Mathf.Lerp(GetComponent<Camera>().fieldOfView, fov, 0.1f);
     }
     // Update is called once per frame
     void Update()

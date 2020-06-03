@@ -24,10 +24,14 @@ public class Zero_fighter_control : MonoBehaviour
     public TextMeshPro power_display;
     public TextMeshPro angle_display;
     public TextMeshPro Height_display;
+    public TextMeshPro landing_gear_display;
 
     public bool landing_gear_toggle;
     private float landing_gear_anim_cooldown = 0;
     public bool cockpit_glass_toggle;
+
+    private float mouse_force_x, mouse_force_y;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +44,13 @@ public class Zero_fighter_control : MonoBehaviour
 
     private void Update()
     {
+        mouse_force_x = Input.GetAxis("Mouse X") * 50 * Time.deltaTime;
+        // inverse y is more comfortable for me
+        mouse_force_y = -Input.GetAxis("Mouse Y") * 50 * Time.deltaTime;
+
+        //rig.AddTorque(new Vector3(0, mouse_force_x, mouse_force_y) * 50000);
+
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             cockpit_glass_toggle = !cockpit_glass_toggle;
@@ -70,14 +81,17 @@ public class Zero_fighter_control : MonoBehaviour
             // all strenth
             engine_power = 300000;
         }
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+
+
+        if (Input.GetKeyDown(KeyCode.X))
         {
             engine_power = 0;
         }
-        if (Input.GetKeyDown(KeyCode.Tab))
+
+        if (Input.GetKey(KeyCode.Tab))
         {
             // jump
-            engine_power = 10000000;
+            engine_power = Mathf.Lerp(engine_power, 10000000, 0.01f);
 
             //jumping = !jumping;
             //if (!jumping)
@@ -98,7 +112,14 @@ public class Zero_fighter_control : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        main_engine_flare.transform.localScale = new Vector3((engine_power / 300000 + 0.7f + Random.RandomRange(-0.1f, 0.1f)) * 100, 100, 100);
+        // verticle rotate
+        rig.AddForceAtPosition(-transform.up * mouse_force_y * 4000, transform.position + transform.forward * 40);
+        rig.AddForceAtPosition(transform.up * mouse_force_y * 4000, transform.position - transform.forward * 20);
+        // horizontal rotate
+        rig.AddForceAtPosition(transform.right * mouse_force_x * 4000, transform.position + transform.forward * 40);
+        rig.AddForceAtPosition(-transform.right * mouse_force_x * 4000, transform.position - transform.forward * 20);
+
+
         if (Input.mouseScrollDelta.y > 0)
         {
             if (engine_power < 300000)
@@ -109,7 +130,7 @@ public class Zero_fighter_control : MonoBehaviour
             {
                 engine_power = 300000;
             }
-            
+
         }
         else if (Input.mouseScrollDelta.y < 0)
         {
@@ -125,11 +146,18 @@ public class Zero_fighter_control : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            rig.AddForceAtPosition(-transform.up * 30000, transform.position + transform.forward);
+            // acceleration
+            rig.AddForce(transform.forward * engine_power * 2);
+            main_engine_flare.transform.localScale = new Vector3((engine_power / 300000 + 0.7f + Random.RandomRange(-0.1f, 0.1f)) * 100, 100, 100);
         }
-        else if (Input.GetKey(KeyCode.S))
+        else
         {
-            rig.AddForceAtPosition(transform.up * 30000, transform.position + transform.forward);
+            main_engine_flare.transform.localScale = new Vector3((0.7f + Random.RandomRange(-0.1f, 0.1f)) * 100, 100, 100);
+            if (Input.GetKey(KeyCode.S))
+            {
+                // acceleration
+                rig.AddForce(-transform.forward * engine_power * 2);
+            }
         }
 
         if (Input.GetKey(KeyCode.E))
@@ -154,9 +182,17 @@ public class Zero_fighter_control : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space))
         {
+            // ascend
             rig.AddForce(transform.up * 15000);
-        } else
+        }
+        else if (Input.GetKey(KeyCode.LeftControl))
         {
+            // decend
+            rig.AddForce(-transform.up * 5000);
+        }
+        else
+        {
+            // auto float stablize
             float up_velocity = rig.velocity.magnitude * Vector3.Dot(rig.velocity.normalized, transform.up);
             if (up_velocity < 0.5f)
             {
@@ -174,8 +210,7 @@ public class Zero_fighter_control : MonoBehaviour
         }
 
         // calculate physics
-        // acceleration
-        rig.AddForce(transform.forward * engine_power * 2);
+        
 
         //Vector3 self_origin_velocity = new Vector3(
         //    Vector3.Dot(transform.forward, rig.velocity),
@@ -200,9 +235,25 @@ public class Zero_fighter_control : MonoBehaviour
         
         // GUI update
         velocity_display.SetText("" + Mathf.RoundToInt(rig.velocity.magnitude * 1000) / 1000);
-        power_display.SetText("" + Mathf.RoundToInt(engine_power * 1000) / 300000);
+        if (engine_power > 300000)
+        {
+            power_display.SetText("JUMPING");
+        }
+        else
+        {
+            power_display.SetText("" + Mathf.RoundToInt(engine_power * 1000) / 300000);
+        }
         //angle_display.SetText("Angle: " + counter_angle_deg);
-        //Height_display.SetText("Height: " + transform.position.y);
-        
+        Height_display.SetText("" + Mathf.RoundToInt(transform.position.y * 100) / 100);
+        if (landing_gear_toggle)
+        {
+            landing_gear_display.SetText("lowered");
+        }
+        else
+        {
+            landing_gear_display.SetText("raised");
+        }
+
+
     }
 }
