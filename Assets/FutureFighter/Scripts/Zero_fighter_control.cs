@@ -76,7 +76,7 @@ public class Zero_fighter_control : MonoBehaviour
             // inverse y is more comfortable for me
             mouse_force_y -= mouse_input_y;
         }
-        cursor_ui.Cursor_update(mouse_input_x, mouse_input_y);
+        //cursor_ui.Cursor_update(mouse_input_x, mouse_input_y);
         //rig.AddTorque(new Vector3(0, mouse_force_x, mouse_force_y) * 50000);
 
         if (Mathf.Abs(mouse_force_x) > 0)
@@ -210,39 +210,74 @@ public class Zero_fighter_control : MonoBehaviour
             if (Input.GetKey(KeyCode.S))
             {
                 // acceleration
-                rig.AddForce(-transform.forward * engine_power * 2);
+                if (engine_power < 10000)
+                {
+                    rig.AddForce(-transform.forward * engine_power * 2);
+                }
+                else
+                {
+                    rig.AddForce(-transform.forward * 10000 * 2);
+                }
             }
         }
 
         if (Input.GetKey(KeyCode.E))
         {
-            rig.AddForceAtPosition(-transform.up * 20000, transform.position + transform.right);
-            rig.AddForceAtPosition(transform.up * 20000, transform.position - transform.right);
+            rig.AddForceAtPosition(-transform.up * 10000, transform.position + transform.right);
+            rig.AddForceAtPosition(transform.up * 10000, transform.position - transform.right);
         }
         else if (Input.GetKey(KeyCode.Q))
         {
-            rig.AddForceAtPosition(transform.up * 20000, transform.position + transform.right);
-            rig.AddForceAtPosition(-transform.up * 20000, transform.position - transform.right);
+            rig.AddForceAtPosition(transform.up * 10000, transform.position + transform.right);
+            rig.AddForceAtPosition(-transform.up * 10000, transform.position - transform.right);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            rig.AddForce(transform.right * 5000);
+            if (engine_power < 10000)
+            {
+                rig.AddForce(transform.right * engine_power);
+            }
+            else
+            {
+                rig.AddForce(transform.right * 10000);
+            }
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            rig.AddForce(-transform.right * 5000);
+            if (engine_power < 10000)
+            {
+                rig.AddForce(-transform.right * engine_power);
+            }
+            else
+            {
+                rig.AddForce(-transform.right * 10000);
+            }
         }
 
         if (Input.GetKey(KeyCode.Space))
         {
             // ascend
-            rig.AddForce(transform.up * engine_power * 2);
+            if (engine_power < 10000)
+            {
+                rig.AddForce(transform.up * engine_power * 2);
+            }
+            else
+            {
+                rig.AddForce(transform.up * 10000 * 2);
+            }
         }
         else if (Input.GetKey(KeyCode.LeftControl))
         {
             // decend
-            rig.AddForce(-transform.up * 5000);
+            if (engine_power < 10000)
+            {
+                rig.AddForce(-transform.up * engine_power * 2);
+            }
+            else
+            {
+                rig.AddForce(-transform.up * 10000 * 2);
+            }
         }
         else
         {
