@@ -5,6 +5,9 @@ using TMPro;
 
 public class Zero_fighter_control : MonoBehaviour
 {
+    public Railgun_control railgun;
+    public Cursor_UI cursor_ui;
+
     private Animator animator;
     public GameObject main_engine_flare;
     public GameObject lift_engine_flare;
@@ -30,7 +33,9 @@ public class Zero_fighter_control : MonoBehaviour
     private float landing_gear_anim_cooldown = 0;
     public bool cockpit_glass_toggle;
 
+    private float mouse_input_x, mouse_input_y;
     private float mouse_force_x, mouse_force_y;
+
 
     // Start is called before the first frame update
     void Start()
@@ -44,13 +49,62 @@ public class Zero_fighter_control : MonoBehaviour
 
     private void Update()
     {
-        mouse_force_x = Input.GetAxis("Mouse X") * 50 * Time.deltaTime;
-        // inverse y is more comfortable for me
-        mouse_force_y = -Input.GetAxis("Mouse Y") * 50 * Time.deltaTime;
+        mouse_input_x = Input.GetAxis("Mouse X") * 5 * Time.deltaTime;
+        if (mouse_input_x == 0)
+        {
+            if (Mathf.Abs(mouse_force_x) < 0.3f)
+            {
+                mouse_force_x = 0;
+            }
+        }
+        else
+        {
+            mouse_force_x += mouse_input_x;
+        }
 
+
+        mouse_input_y = Input.GetAxis("Mouse Y") * 1 * Time.deltaTime;
+        if (mouse_input_y == 0)
+        {
+            if (Mathf.Abs(mouse_force_y) < 0.3f)
+            {
+                mouse_force_y = 0;
+            }
+        }
+        else
+        {
+            // inverse y is more comfortable for me
+            mouse_force_y -= mouse_input_y;
+        }
+        cursor_ui.Cursor_update(mouse_input_x, mouse_input_y);
         //rig.AddTorque(new Vector3(0, mouse_force_x, mouse_force_y) * 50000);
 
+        if (Mathf.Abs(mouse_force_x) > 0)
+        {
+            if (mouse_force_x > 0.4f)
+            {
+                mouse_force_x = 0.4f;
+            }
+            else if (mouse_force_x < -0.4f)
+            {
+                mouse_force_x = -0.4f;
+            }
 
+        }
+
+        if (Mathf.Abs(mouse_force_y) > 0)
+        {
+            if (mouse_force_y > 0.4f)
+            {
+                mouse_force_y = 0.4f;
+            }
+            else if (mouse_force_y < -0.4f)
+            {
+                mouse_force_y = -0.4f;
+            }
+
+        }
+        
         if (Input.GetKeyDown(KeyCode.F))
         {
             cockpit_glass_toggle = !cockpit_glass_toggle;
@@ -113,11 +167,11 @@ public class Zero_fighter_control : MonoBehaviour
     void FixedUpdate()
     {
         // verticle rotate
-        rig.AddForceAtPosition(-transform.up * mouse_force_y * 4000, transform.position + transform.forward * 40);
+        rig.AddForceAtPosition(-transform.up * mouse_force_y * 4000, transform.position + transform.forward * 20);
         rig.AddForceAtPosition(transform.up * mouse_force_y * 4000, transform.position - transform.forward * 20);
         // horizontal rotate
-        rig.AddForceAtPosition(transform.right * mouse_force_x * 4000, transform.position + transform.forward * 40);
-        rig.AddForceAtPosition(-transform.right * mouse_force_x * 4000, transform.position - transform.forward * 20);
+        rig.AddForceAtPosition(transform.right * mouse_force_x * 4000, transform.position + transform.forward * 10);
+        rig.AddForceAtPosition(-transform.right * mouse_force_x * 4000, transform.position - transform.forward * 10);
 
 
         if (Input.mouseScrollDelta.y > 0)
@@ -162,13 +216,13 @@ public class Zero_fighter_control : MonoBehaviour
 
         if (Input.GetKey(KeyCode.E))
         {
-            rig.AddForceAtPosition(-transform.up * 30000, transform.position + transform.right);
-            rig.AddForceAtPosition(transform.up * 30000, transform.position - transform.right);
+            rig.AddForceAtPosition(-transform.up * 20000, transform.position + transform.right);
+            rig.AddForceAtPosition(transform.up * 20000, transform.position - transform.right);
         }
         else if (Input.GetKey(KeyCode.Q))
         {
-            rig.AddForceAtPosition(transform.up * 30000, transform.position + transform.right);
-            rig.AddForceAtPosition(-transform.up * 30000, transform.position - transform.right);
+            rig.AddForceAtPosition(transform.up * 20000, transform.position + transform.right);
+            rig.AddForceAtPosition(-transform.up * 20000, transform.position - transform.right);
         }
 
         if (Input.GetKey(KeyCode.D))
@@ -183,7 +237,7 @@ public class Zero_fighter_control : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             // ascend
-            rig.AddForce(transform.up * 15000);
+            rig.AddForce(transform.up * engine_power * 2);
         }
         else if (Input.GetKey(KeyCode.LeftControl))
         {
