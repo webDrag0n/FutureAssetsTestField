@@ -5,7 +5,7 @@ using UnityEngine;
 public class Railgun_control : MonoBehaviour
 {
     public Transform emitter_pos;
-    public Object bullet;
+    public GameObject bullet;
     public float damage;
 
     // 0: not ready, 1: ready
@@ -51,19 +51,33 @@ public class Railgun_control : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Control game objects to finish one fire action
+    /// </summary>
     private void Fire()
     {
         // change status to not ready (cooling)
         fire_status = 0;
         // initiate cooldown time
         cooldown_time = 1;
+        GameObject b = Instantiate(bullet);
+        b.transform.position = emitter_pos.position;
+        b.transform.localScale = new Vector3(0.1f, 0.1f, 3f);
+        b.transform.rotation = transform.rotation;
+        b.GetComponent<Rigidbody>().AddForce(b.transform.forward * 100, ForceMode.Impulse);
     }
-
+    
+    /// <summary>
+    /// Call Fire() function once
+    /// </summary>
     public void Fire_once()
     {
         Fire();
     }
 
+    /// <summary>
+    /// Switch to auto continue fire mode
+    /// </summary>
     public void Auto_fire()
     {
         Fire();

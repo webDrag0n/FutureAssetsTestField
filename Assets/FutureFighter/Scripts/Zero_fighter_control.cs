@@ -5,8 +5,9 @@ using TMPro;
 
 public class Zero_fighter_control : MonoBehaviour
 {
-    public Railgun_control railgun;
-    public Cursor_UI cursor_ui;
+    #region variables
+    [SerializeField] public Railgun_control railgun;
+    [SerializeField] public Cursor_UI cursor_ui;
 
     private Animator animator;
     public GameObject main_engine_flare;
@@ -35,7 +36,7 @@ public class Zero_fighter_control : MonoBehaviour
 
     private float mouse_input_x, mouse_input_y;
     private float mouse_force_x, mouse_force_y;
-
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +50,7 @@ public class Zero_fighter_control : MonoBehaviour
 
     private void Update()
     {
+        // mouse
         mouse_input_x = Input.GetAxis("Mouse X") * 5 * Time.deltaTime;
         if (mouse_input_x == 0)
         {
@@ -76,7 +78,7 @@ public class Zero_fighter_control : MonoBehaviour
             // inverse y is more comfortable for me
             mouse_force_y -= mouse_input_y;
         }
-        //cursor_ui.Cursor_update(mouse_input_x, mouse_input_y);
+        // cursor_ui.Cursor_update(mouse_input_x, mouse_input_y);
         //rig.AddTorque(new Vector3(0, mouse_force_x, mouse_force_y) * 50000);
 
         if (Mathf.Abs(mouse_force_x) > 0)
@@ -105,6 +107,12 @@ public class Zero_fighter_control : MonoBehaviour
 
         }
         
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            railgun.Fire_once();
+        }
+
+        // keyboard
         if (Input.GetKeyDown(KeyCode.F))
         {
             cockpit_glass_toggle = !cockpit_glass_toggle;
@@ -202,11 +210,11 @@ public class Zero_fighter_control : MonoBehaviour
         {
             // acceleration
             rig.AddForce(transform.forward * engine_power * 2);
-            main_engine_flare.transform.localScale = new Vector3((engine_power / 300000 + 0.7f + Random.RandomRange(-0.1f, 0.1f)) * 100, 100, 100);
+            main_engine_flare.transform.localScale = new Vector3((engine_power / 300000 + 0.7f + Random.Range(-0.1f, 0.1f)) * 100, 100, 100);
         }
         else
         {
-            main_engine_flare.transform.localScale = new Vector3((0.7f + Random.RandomRange(-0.1f, 0.1f)) * 100, 100, 100);
+            main_engine_flare.transform.localScale = new Vector3((0.7f + Random.Range(-0.1f, 0.1f)) * 100, 100, 100);
             if (Input.GetKey(KeyCode.S))
             {
                 // acceleration

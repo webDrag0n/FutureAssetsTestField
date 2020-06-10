@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Cursor_UI : MonoBehaviour
 {
+
+    /// <summary>
+    /// Updating cursor icon on the hud
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
     public void Cursor_update(float x, float y)
     {
         float magnitude = Mathf.Sqrt(x * x + y * y) * 5;
