@@ -65,7 +65,7 @@ public class Zero_fighter_control : MonoBehaviour
         }
 
 
-        mouse_input_y = Input.GetAxis("Mouse Y") * 1 * Time.deltaTime;
+        mouse_input_y = Input.GetAxis("Mouse Y") * 5 * Time.deltaTime;
         if (mouse_input_y == 0)
         {
             if (Mathf.Abs(mouse_force_y) < 0.3f)
@@ -121,13 +121,17 @@ public class Zero_fighter_control : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.V))
         {
-            cam_array[current_cam_index].gameObject.SetActive(false);
-            current_cam_index += 1;
-            if (current_cam_index >= cam_array.Length)
+            if (cam_array.Length > 0)
             {
-                current_cam_index = 0;
+                cam_array[current_cam_index].gameObject.SetActive(false);
+                current_cam_index += 1;
+                if (current_cam_index >= cam_array.Length)
+                {
+                    current_cam_index = 0;
+                }
+                cam_array[current_cam_index].gameObject.SetActive(true);
             }
-            cam_array[current_cam_index].gameObject.SetActive(true);
+            
         }
         if (Input.GetKey(KeyCode.L))
         {
@@ -175,11 +179,11 @@ public class Zero_fighter_control : MonoBehaviour
     void FixedUpdate()
     {
         // verticle rotate
-        rig.AddForceAtPosition(-transform.up * mouse_force_y * 4000, transform.position + transform.forward * 20);
-        rig.AddForceAtPosition(transform.up * mouse_force_y * 4000, transform.position - transform.forward * 20);
+        rig.AddForceAtPosition(-transform.up * mouse_force_y * mouse_force_y * Mathf.Sign(mouse_force_y) * 10000, transform.position + transform.forward * 20);
+        rig.AddForceAtPosition(transform.up * mouse_force_y * mouse_force_y * Mathf.Sign(mouse_force_y) * 10000, transform.position - transform.forward * 20);
         // horizontal rotate
-        rig.AddForceAtPosition(transform.right * mouse_force_x * 4000, transform.position + transform.forward * 10);
-        rig.AddForceAtPosition(-transform.right * mouse_force_x * 4000, transform.position - transform.forward * 10);
+        rig.AddForceAtPosition(transform.right * mouse_force_x * mouse_force_x * Mathf.Sign(mouse_force_x) * 10000, transform.position + transform.forward * 10);
+        rig.AddForceAtPosition(-transform.right * mouse_force_x * mouse_force_x * Mathf.Sign(mouse_force_x) * 10000, transform.position - transform.forward * 10);
 
 
         if (Input.mouseScrollDelta.y > 0)

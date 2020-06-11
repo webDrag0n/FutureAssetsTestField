@@ -64,7 +64,7 @@ public class Railgun_control : MonoBehaviour
         b.transform.position = emitter_pos.position;
         b.transform.localScale = new Vector3(0.1f, 0.1f, 3f);
         b.transform.rotation = transform.rotation;
-        b.GetComponent<Rigidbody>().AddForce(b.transform.forward * 100, ForceMode.Impulse);
+        b.GetComponent<Rigidbody>().AddForce(b.transform.forward * 1000, ForceMode.Impulse);
     }
     
     /// <summary>
