@@ -21,6 +21,6 @@ public class Piston_follow : MonoBehaviour
     void Update()
     {
         //transform.position = target.position - delta_pos - piston_distance;
-        transform.LookAt(target, Vector3.up);
+        transform.LookAt(target);
     }
 }
