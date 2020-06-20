@@ -214,11 +214,26 @@ public class Zero_fighter_control : MonoBehaviour
         {
             // acceleration
             rig.AddForce(transform.forward * engine_power * 2);
-            main_engine_flare.transform.localScale = new Vector3((engine_power / 300000 + 0.7f + Random.Range(-0.1f, 0.1f)) * 100, 100, 100);
+            try
+            {
+                main_engine_flare.transform.localScale = new Vector3((engine_power / 300000 + 0.7f + Random.Range(-0.1f, 0.1f)) * 100, 100, 100);
+            }
+            catch
+            {
+
+            }
+            
         }
         else
         {
-            main_engine_flare.transform.localScale = new Vector3((0.7f + Random.Range(-0.1f, 0.1f)) * 100, 100, 100);
+            try
+            {
+                main_engine_flare.transform.localScale = new Vector3((0.7f + Random.Range(-0.1f, 0.1f)) * 100, 100, 100);
+            }
+            catch
+            {
+
+            }
             if (Input.GetKey(KeyCode.S))
             {
                 // acceleration
@@ -272,11 +287,11 @@ public class Zero_fighter_control : MonoBehaviour
             // ascend
             if (engine_power < 10000)
             {
-                rig.AddForce(transform.up * engine_power * 2);
+                rig.AddForce(transform.up * engine_power * 20);
             }
             else
             {
-                rig.AddForce(transform.up * 10000 * 2);
+                rig.AddForce(transform.up * 10000 * 20);
             }
         }
         else if (Input.GetKey(KeyCode.LeftControl))
@@ -335,6 +350,7 @@ public class Zero_fighter_control : MonoBehaviour
         //rig.AddForceAtPosition(transform.up * Mathf.Pow(forwad_speed, 2) / 1.5f * air_density - resistive_force, transform.position - transform.forward * 0f);
         
         // GUI update
+
         velocity_display.SetText("" + Mathf.RoundToInt(rig.velocity.magnitude * 1000) / 1000);
         if (engine_power > 300000)
         {
