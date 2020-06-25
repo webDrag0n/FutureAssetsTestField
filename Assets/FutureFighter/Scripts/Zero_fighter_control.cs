@@ -17,6 +17,7 @@ public class Zero_fighter_control : MonoBehaviour
 
     public float init_velocity;
     public float engine_power;
+    public float engine_power_multiply;
     public float air_density;
 
     private bool jumping;
@@ -213,7 +214,7 @@ public class Zero_fighter_control : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             // acceleration
-            rig.AddForce(transform.forward * engine_power * 2);
+            rig.AddForce(transform.forward * engine_power * engine_power_multiply * 2);
             try
             {
                 main_engine_flare.transform.localScale = new Vector3((engine_power / 300000 + 0.7f + Random.Range(-0.1f, 0.1f)) * 100, 100, 100);
@@ -239,7 +240,7 @@ public class Zero_fighter_control : MonoBehaviour
                 // acceleration
                 if (engine_power < 10000)
                 {
-                    rig.AddForce(-transform.forward * engine_power * 2);
+                    rig.AddForce(-transform.forward * engine_power * engine_power_multiply * 2);
                 }
                 else
                 {
@@ -250,35 +251,35 @@ public class Zero_fighter_control : MonoBehaviour
 
         if (Input.GetKey(KeyCode.E))
         {
-            rig.AddForceAtPosition(-transform.up * 10000, transform.position + transform.right);
-            rig.AddForceAtPosition(transform.up * 10000, transform.position - transform.right);
+            rig.AddForceAtPosition(-transform.up * 10000 * engine_power_multiply, transform.position + transform.right);
+            rig.AddForceAtPosition(transform.up * 10000 * engine_power_multiply, transform.position - transform.right);
         }
         else if (Input.GetKey(KeyCode.Q))
         {
-            rig.AddForceAtPosition(transform.up * 10000, transform.position + transform.right);
-            rig.AddForceAtPosition(-transform.up * 10000, transform.position - transform.right);
+            rig.AddForceAtPosition(transform.up * 10000 * engine_power_multiply, transform.position + transform.right);
+            rig.AddForceAtPosition(-transform.up * 10000 * engine_power_multiply, transform.position - transform.right);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
             if (engine_power < 10000)
             {
-                rig.AddForce(transform.right * engine_power);
+                rig.AddForce(transform.right * engine_power * engine_power_multiply);
             }
             else
             {
-                rig.AddForce(transform.right * 10000);
+                rig.AddForce(transform.right * 10000 * engine_power_multiply);
             }
         }
         else if (Input.GetKey(KeyCode.A))
         {
             if (engine_power < 10000)
             {
-                rig.AddForce(-transform.right * engine_power);
+                rig.AddForce(-transform.right * engine_power * engine_power_multiply);
             }
             else
             {
-                rig.AddForce(-transform.right * 10000);
+                rig.AddForce(-transform.right * 10000 * engine_power_multiply);
             }
         }
 
@@ -287,11 +288,11 @@ public class Zero_fighter_control : MonoBehaviour
             // ascend
             if (engine_power < 10000)
             {
-                rig.AddForce(transform.up * engine_power * 20);
+                rig.AddForce(transform.up * engine_power * engine_power_multiply * 2);
             }
             else
             {
-                rig.AddForce(transform.up * 10000 * 20);
+                rig.AddForce(transform.up * 10000 * engine_power_multiply * 2);
             }
         }
         else if (Input.GetKey(KeyCode.LeftControl))
@@ -299,11 +300,11 @@ public class Zero_fighter_control : MonoBehaviour
             // decend
             if (engine_power < 10000)
             {
-                rig.AddForce(-transform.up * engine_power * 2);
+                rig.AddForce(-transform.up * engine_power * engine_power_multiply * 2);
             }
             else
             {
-                rig.AddForce(-transform.up * 10000 * 2);
+                rig.AddForce(-transform.up * 10000 * engine_power_multiply * 2);
             }
         }
         else
