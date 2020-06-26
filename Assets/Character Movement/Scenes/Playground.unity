@@ -39639,6 +39639,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 254264905}
   follow_delta_time: 5
+  follow_pos: 0
+  follow_delta_pos: {x: 0, y: 0, z: 0}
+  enable_mouse_control: 0
 --- !u!1 &2137342837
 GameObject:
   m_ObjectHideFlags: 0
@@ -39798,6 +39801,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: bodyv3_sculpted
+      objectReference: {fileID: 0}
+    - target: {fileID: 8418078179529252451, guid: 4c0fddf97ee3b2d41b36960e58c6c8c5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c0fddf97ee3b2d41b36960e58c6c8c5, type: 3}
