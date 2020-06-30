@@ -19,6 +19,7 @@ public enum Mode
 
 public class CarControl : MonoBehaviour
 {
+    public GameObject body;
     public List<AxleInfo> axleInfos;
     public float maxMotorTorque;
     public float maxSteeringAngle;
@@ -121,6 +122,8 @@ public class CarControl : MonoBehaviour
     {
         if (mode == Mode.land)
         {
+            Physics.gravity = transform.up * -9.8f;
+            Debug.Log(transform.up);
             if (Input.GetKey(KeyCode.Space))
             {
                 Vector3 velocity = GetComponent<Rigidbody>().velocity;
