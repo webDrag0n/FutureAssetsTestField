@@ -3272,6 +3272,7 @@ MonoBehaviour:
   current_cam_index: 0
   init_velocity: 0
   engine_power: 0
+  engine_power_multiply: 10
   air_density: 1.293
   front_glass_action_time: 1
   velocity_display: {fileID: 1822019190}
@@ -6536,6 +6537,7 @@ MonoBehaviour:
   current_cam_index: 0
   init_velocity: 0
   engine_power: 0
+  engine_power_multiply: 10
   air_density: 1.293
   front_glass_action_time: 1
   velocity_display: {fileID: 1732521320}
