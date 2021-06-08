@@ -156,8 +156,8 @@ public class CarControl : MonoBehaviour
         if (mode == Mode.air)
         {
             Vector3 velocity = GetComponent<Rigidbody>().velocity;
-            float side_stable_force = -Vector3.Dot(velocity, transform.right) * rig.mass;
-            float forward_stable_force = -Vector3.Dot(velocity, transform.forward) * rig.mass;
+            float side_stable_force = -Vector3.Dot(velocity, transform.right) * rig.mass * 100f;
+            float forward_stable_force = -Vector3.Dot(velocity, transform.forward) * rig.mass * 100f;
             float upward_stable_force = -Vector3.Dot(velocity, transform.up) * rig.mass;
 
             if (Input.GetKey(KeyCode.Space))

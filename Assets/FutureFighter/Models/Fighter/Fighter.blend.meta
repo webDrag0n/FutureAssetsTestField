@@ -1,11 +1,86 @@
 fileFormatVersion: 2
 guid: b4bfed398065fbe4ca2aa337d38bebe1
 ModelImporter:
-  serializedVersion: 26
+  serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: body
+    second: {fileID: 2100000, guid: 76f1e89ac7c847f4eb1388b965650def, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: body_belt
+    second: {fileID: 2100000, guid: ab62adb6ce482e341a53478b19620352, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: chair
+    second: {fileID: 2100000, guid: 1087616a86b929b4a8379f2dc7201e27, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: chair_belt
+    second: {fileID: 2100000, guid: 95575a40697c1c643abfc98de58c6809, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cockpit
+    second: {fileID: 2100000, guid: 404cfb56beb431145b00ee9d32d4df84, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cockpit_belt
+    second: {fileID: 2100000, guid: b126f43ce8b00ae46b03d8dda82fe217, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cockpit_light_belt
+    second: {fileID: 2100000, guid: 2d254e42087363b40b646d87dec80325, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: engine_flare
+    second: {fileID: 2100000, guid: 51072846afe82444fb826e021e93f34b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: engine_main
+    second: {fileID: 2100000, guid: a9340e15114623e4ab62e8c7bd82a975, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: engine_main_belt
+    second: {fileID: 2100000, guid: 3c3b37c39747fc64ebdc895bee5856ca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: glass
+    second: {fileID: 2100000, guid: acb7286e8bf6318458056b59d94d6d86, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: glass_belt
+    second: {fileID: 2100000, guid: cbf6cea8aacfa704f9b996601612c4ac, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: glass_holder
+    second: {fileID: 2100000, guid: 261cc0b28c86283498d45edcb9d64b61, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wing_front
+    second: {fileID: 2100000, guid: 0d6286c1023eb144abab8453a1858cd8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wing_front_belt
+    second: {fileID: 2100000, guid: 502641e326b529946a76f529f46102a7, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -69,7 +144,6 @@ ModelImporter:
     normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human: []
@@ -87,8 +161,10 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 0
   humanoidOversampling: 1
+  avatarSetup: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

@@ -180,11 +180,11 @@ public class Zero_fighter_control : MonoBehaviour
     void FixedUpdate()
     {
         // verticle rotate
-        rig.AddForceAtPosition(-transform.up * mouse_force_y * mouse_force_y * Mathf.Sign(mouse_force_y) * 10000, transform.position + transform.forward * 20);
-        rig.AddForceAtPosition(transform.up * mouse_force_y * mouse_force_y * Mathf.Sign(mouse_force_y) * 10000, transform.position - transform.forward * 20);
+        rig.AddForceAtPosition(-transform.up * mouse_force_y * mouse_force_y * Mathf.Sign(mouse_force_y) * 5000, transform.position + transform.forward * 20);
+        rig.AddForceAtPosition(transform.up * mouse_force_y * mouse_force_y * Mathf.Sign(mouse_force_y) * 5000, transform.position - transform.forward * 20);
         // horizontal rotate
-        rig.AddForceAtPosition(transform.right * mouse_force_x * mouse_force_x * Mathf.Sign(mouse_force_x) * 10000, transform.position + transform.forward * 10);
-        rig.AddForceAtPosition(-transform.right * mouse_force_x * mouse_force_x * Mathf.Sign(mouse_force_x) * 10000, transform.position - transform.forward * 10);
+        rig.AddForceAtPosition(transform.right * mouse_force_x * mouse_force_x * Mathf.Sign(mouse_force_x) * 5000, transform.position + transform.forward * 10);
+        rig.AddForceAtPosition(-transform.right * mouse_force_x * mouse_force_x * Mathf.Sign(mouse_force_x) * 5000, transform.position - transform.forward * 10);
 
 
         if (Input.mouseScrollDelta.y > 0)
@@ -251,13 +251,13 @@ public class Zero_fighter_control : MonoBehaviour
 
         if (Input.GetKey(KeyCode.E))
         {
-            rig.AddForceAtPosition(-transform.up * 10000 * engine_power_multiply, transform.position + transform.right);
-            rig.AddForceAtPosition(transform.up * 10000 * engine_power_multiply, transform.position - transform.right);
+            rig.AddForceAtPosition(-transform.up * 5000 * engine_power_multiply, transform.position + transform.right);
+            rig.AddForceAtPosition(transform.up * 5000 * engine_power_multiply, transform.position - transform.right);
         }
         else if (Input.GetKey(KeyCode.Q))
         {
-            rig.AddForceAtPosition(transform.up * 10000 * engine_power_multiply, transform.position + transform.right);
-            rig.AddForceAtPosition(-transform.up * 10000 * engine_power_multiply, transform.position - transform.right);
+            rig.AddForceAtPosition(transform.up * 5000 * engine_power_multiply, transform.position + transform.right);
+            rig.AddForceAtPosition(-transform.up * 5000 * engine_power_multiply, transform.position - transform.right);
         }
 
         if (Input.GetKey(KeyCode.D))

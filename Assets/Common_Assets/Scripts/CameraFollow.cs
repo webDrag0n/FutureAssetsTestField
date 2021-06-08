@@ -17,8 +17,8 @@ public class CameraFollow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //delta_pos = target.transform.position - transform.position;
-        delta_pos = target.transform.forward * follow_delta_pos.z - target.transform.up * follow_delta_pos.y;
+        delta_pos = target.transform.position - transform.position;
+        // delta_pos = target.transform.forward * follow_delta_pos.z - target.transform.up * follow_delta_pos.y;
         mouse_control_delta_pos = delta_pos;
         delta_rot = target.transform.rotation * transform.rotation;
         if (enable_mouse_control)
@@ -49,7 +49,7 @@ public class CameraFollow : MonoBehaviour
                 } else
                 {
                     //相机的位置
-                    Vector3 targetPos = target.transform.position - Vector3.up * delta_pos.y + target.transform.forward * delta_pos.x;
+                    Vector3 targetPos = target.transform.position + Vector3.up * delta_pos.y - target.transform.forward * delta_pos.z;
                     transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * follow_delta_time);
                     x = 0;
                     y = 0;
@@ -58,7 +58,7 @@ public class CameraFollow : MonoBehaviour
             else
             {
                 //相机的位置
-                Vector3 targetPos = target.transform.position - Vector3.up * delta_pos.y + target.transform.forward * delta_pos.x;
+                Vector3 targetPos = target.transform.position - Vector3.up * delta_pos.y - target.transform.forward * delta_pos.z;
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * follow_delta_time);
             }
         }

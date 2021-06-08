@@ -3,7 +3,37 @@ guid: e16e94338949a51499a9a6fa9f1b546a
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Base
+    second: {fileID: 2100000, guid: cbaa74db674bf854692bfa53f49cd78d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: edd85e204c28ffa4cab64964e39605f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: black_outline
+    second: {fileID: 2100000, guid: 9d2fd32350826a6478cc49659e507975, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: engine_flare
+    second: {fileID: 2100000, guid: a5378b937d2ecad45b703f745e4c3ac2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: red_outline
+    second: {fileID: 2100000, guid: 03658dc2ce460a249b1894865765d111, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: white_outline
+    second: {fileID: 2100000, guid: e65a447f22be82b47a473bcb56f885a1, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

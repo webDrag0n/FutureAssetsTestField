@@ -1434,7 +1434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ab71a2a0720b3489e217106eb88288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Force_vector: {x: -8000, y: 0, z: 0}
+  Force_vector: {x: -4000, y: 0, z: 0}
   is_impulse: 1
 --- !u!1 &2011777897
 GameObject:

@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 48cd951e25dab3249bffe764f556f39e,
     type: 2}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -5016,6 +5016,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 393730871}
   follow_delta_time: 5
+  follow_pos: 1
+  follow_delta_pos: {x: 0, y: 0, z: 0}
+  enable_mouse_control: 0
 --- !u!114 &1236013449
 MonoBehaviour:
   m_ObjectHideFlags: 0
